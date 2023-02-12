@@ -123,5 +123,12 @@ namespace Proyecto_Final.Repository
                 conn.Close();
             }
         }
+
+        public static void ActualizarStockProducto(long id, int cantidadVendidos)
+        {
+            Producto producto = GetProductosByIdProducto(id);
+            producto.Stock -= cantidadVendidos;
+            ModificarProducto(producto);
+        }
     }
 }

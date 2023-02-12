@@ -79,7 +79,22 @@ namespace Proyecto_Final.Repository
             }
         }
 
+        public static void InsertarProductoVendido(ProductoVendido productoVendido)
+        {
+            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            {
+                using SqlCommand comando = new SqlCommand("INSERT INTO ProductoVendido (Stock, IdProducto, IdVenta) VALUES (@stock, @idProducto, @idVenta)", conn);
+                {
+                    comando.Parameters.AddWithValue("@stock", productoVendido.Stock);
+                    comando.Parameters.AddWithValue("@idProducto", productoVendido.IdProducto);
+                    comando.Parameters.AddWithValue("@idVenta", productoVendido.IdVenta);
+                    conn.Open();
+                    int rowsAffected = comando.ExecuteNonQuery();
+                    conn.Close();
+                }
 
+            }
+        }
 
     }
 }
