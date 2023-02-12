@@ -1,12 +1,5 @@
-﻿using Proyecto_final;
-using Proyecto_final.Models;
-using System;
-using System.Collections.Generic;
+﻿using Proyecto_final.Models;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proyecto_Final.Repository
 {
@@ -32,7 +25,7 @@ namespace Proyecto_Final.Repository
                             {
                                 Producto producto = new Producto();
                                 producto.Id = reader.GetInt64(0);
-                                producto.Descripcion = reader.GetString(1);
+                                producto.Descripciones = reader.GetString(1);
                                 producto.Costo = reader.GetDecimal(2);
                                 producto.PrecioVenta = reader.GetDecimal(3);
                                 producto.Stock = reader.GetInt32(4);
@@ -64,7 +57,7 @@ namespace Proyecto_Final.Repository
 
                             Producto producto = new Producto();
                             producto.Id = reader.GetInt64(0);
-                            producto.Descripcion = reader.GetString(1);
+                            producto.Descripciones = reader.GetString(1);
                             producto.Costo = reader.GetDecimal(2);
                             producto.PrecioVenta = reader.GetDecimal(3);
                             producto.Stock = reader.GetInt32(4);
@@ -76,6 +69,66 @@ namespace Proyecto_Final.Repository
                 }
             }
             return productos;
+        }
+        public static void CrearProductos(Producto producto)
+        {
+            const string cadenaConexion = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            {
+                using SqlCommand comando = new SqlCommand("INSERT INTO Producto (Descripciones, Costo, PrecioVenta, Stock, IdUsuario) VALUES (@descripciones, @costo, @precioVenta, @stock, @idUsuario)", conn);
+                {
+                    comando.Parameters.AddWithValue("@descripciones", producto.Descripciones);
+                    comando.Parameters.AddWithValue("@costo", producto.Costo);
+                    comando.Parameters.AddWithValue("@precioVenta", producto.PrecioVenta);
+                    comando.Parameters.AddWithValue("@stock", producto.Stock);
+                    comando.Parameters.AddWithValue("@idUsuario", producto.IdUsuario);
+                    conn.Open();
+                    int rowsAffected = comando.ExecuteNonQuery();
+                    conn.Close();
+                }
+
+            }
+
+        }
+        public static void ModificarProducto(Producto producto)
+        {
+            const string cadenaConexion = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            var query = "UPDATE Producto SET Descripciones = @descripciones, Costo = @costo, PrecioVenta = @precioventa, Stock = @stock, IdUsuario = @idUsuario WHERE Id = @id";
+            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            {
+                SqlCommand comando = new SqlCommand(query, conn);
+                comando.Parameters.AddWithValue("@descripciones", producto.Descripciones);
+                comando.Parameters.AddWithValue("@costo", producto.Costo);
+                comando.Parameters.AddWithValue("@precioventa", producto.PrecioVenta);
+                comando.Parameters.AddWithValue("@stock", producto.Stock);
+                comando.Parameters.AddWithValue("@idUsuario", producto.IdUsuario);
+                comando.Parameters.AddWithValue("@id", producto.Id);
+                conn.Open();
+                int rowsAffected = comando.ExecuteNonQuery();
+                conn.Close();
+            }
+
+        }
+
+        public static void BorrarProducto(long idProducto)
+        {
+            ManejadorProductoVendido.BorrarProductoVendido(idProducto);
+            var query = "DELETE FROM Producto WHERE Id = @idProducto";
+            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            {
+                SqlCommand comando = new SqlCommand(query, conn);
+                comando.Parameters.AddWithValue("@idProducto", idProducto);
+                conn.Open();
+                int rowsAffected = comando.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
+        public static void ActualizarStockProducto(long id, int cantidadVendidos)
+        {
+            Producto producto = GetProductosByIdProducto(id);
+            producto.Stock -= cantidadVendidos;
+            ModificarProducto(producto);
         }
     }
 }

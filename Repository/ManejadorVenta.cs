@@ -1,10 +1,5 @@
-﻿using Proyecto_final;
-using System;
-using System.Collections.Generic;
+﻿using Proyecto_final.Models;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proyecto_Final.Repository
 {
@@ -39,6 +34,30 @@ namespace Proyecto_Final.Repository
             }
             return ventas;
         }
+        public static void CargarVenta(long idUsuario, List<Producto> listaProducto)
+        {
+            long idNuevaVenta = 0;
+            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            {
+                using SqlCommand comando = new SqlCommand("INSERT INTO Venta (Comentarios, IdUsuario) VALUES (@comentarios, @idUsuario); SELECT @@IDENTITY", conn);
+                {
+                    comando.Parameters.AddWithValue("@comentarios", "");
+                    comando.Parameters.AddWithValue("@idUsuario", idUsuario);
+                    conn.Open();
+                    idNuevaVenta = Convert.ToInt64(comando.ExecuteScalar());
+                    conn.Close();
+                }
 
+            }
+            foreach (Producto producto in listaProducto)
+            {
+                ProductoVendido temporal = new ProductoVendido();
+                temporal.Stock= producto.Stock;
+                temporal.IdProducto = producto.Id;
+                temporal.IdVenta = idNuevaVenta;
+                ManejadorProductoVendido.InsertarProductoVendido(temporal);
+                ManejadorProducto.ActualizarStockProducto(producto.Id, producto.Stock);
+            }
+        }
     }
 }

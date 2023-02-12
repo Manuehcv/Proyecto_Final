@@ -1,10 +1,5 @@
-﻿using Proyecto_final;
-using System;
-using System.Collections.Generic;
+﻿using Proyecto_final.Models;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proyecto_Final.Repository
 {
@@ -65,10 +60,40 @@ namespace Proyecto_Final.Repository
             foreach (ProductoVendido item in nombrarProducto)
             {
                 Producto temporal = ManejadorProducto.GetProductosByIdProducto(item.IdProducto);
-                nombresProductos.Add(temporal.Descripcion);
+                nombresProductos.Add(temporal.Descripciones);
             }
             return nombresProductos;
 
+        }
+        
+        public static void BorrarProductoVendido(long idProducto)
+        {
+            var query = "DELETE FROM ProductoVendido WHERE IdProducto = @idProducto";
+            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            {
+                SqlCommand comando = new SqlCommand(query, conn);
+                comando.Parameters.AddWithValue("@idProducto", idProducto);
+                conn.Open();
+                int rowsAffected = comando.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
+        public static void InsertarProductoVendido(ProductoVendido productoVendido)
+        {
+            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            {
+                using SqlCommand comando = new SqlCommand("INSERT INTO ProductoVendido (Stock, IdProducto, IdVenta) VALUES (@stock, @idProducto, @idVenta)", conn);
+                {
+                    comando.Parameters.AddWithValue("@stock", productoVendido.Stock);
+                    comando.Parameters.AddWithValue("@idProducto", productoVendido.IdProducto);
+                    comando.Parameters.AddWithValue("@idVenta", productoVendido.IdVenta);
+                    conn.Open();
+                    int rowsAffected = comando.ExecuteNonQuery();
+                    conn.Close();
+                }
+
+            }
         }
 
     }
