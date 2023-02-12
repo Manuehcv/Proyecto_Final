@@ -75,7 +75,7 @@ namespace Proyecto_Final.Repository
             const string cadenaConexion = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             using (SqlConnection conn = new SqlConnection(cadenaConexion))
             {
-                using SqlCommand comando = new SqlCommand("INSERT INTO Producto (Descripciones, Costo, PrecioVenta, Stock, IdUsuario) VALUES (@descripciones, @costo, @precioVenta, @stock, @idUsuario", conn);
+                using SqlCommand comando = new SqlCommand("INSERT INTO Producto (Descripciones, Costo, PrecioVenta, Stock, IdUsuario) VALUES (@descripciones, @costo, @precioVenta, @stock, @idUsuario)", conn);
                 {
                     comando.Parameters.AddWithValue("@descripciones", producto.Descripciones);
                     comando.Parameters.AddWithValue("@costo", producto.Costo);
@@ -87,6 +87,25 @@ namespace Proyecto_Final.Repository
                     conn.Close();
                 }
 
+            }
+
+        }
+        public static void ModificarProducto(Producto producto)
+        {
+            const string cadenaConexion = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            var query = "UPDATE Producto SET Descripciones = @descripciones, Costo = @costo, PrecioVenta = @precioventa, Stock = @stock, IdUsuario = @idUsuario WHERE Id = @id";
+            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            {
+                SqlCommand comando = new SqlCommand(query, conn);
+                comando.Parameters.AddWithValue("@descripciones", producto.Descripciones);
+                comando.Parameters.AddWithValue("@costo", producto.Costo);
+                comando.Parameters.AddWithValue("@precioventa", producto.PrecioVenta);
+                comando.Parameters.AddWithValue("@stock", producto.Stock);
+                comando.Parameters.AddWithValue("@idUsuario", producto.IdUsuario);
+                comando.Parameters.AddWithValue("@id", producto.Id);
+                conn.Open();
+                int rowsAffected = comando.ExecuteNonQuery();
+                conn.Close();
             }
 
         }
