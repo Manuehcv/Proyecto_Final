@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Proyecto_final.Models;
+using Proyecto_Final.Repository;
 
 namespace Proyecto_Final.Controllers
 {
@@ -7,5 +8,10 @@ namespace Proyecto_Final.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
+        [HttpPut]
+        public void PutUsuario(Usuario ModifyUser)
+        {
+            ManejadorUsuario.ModificarUsuario(ModifyUser);
+        }
     }
 }

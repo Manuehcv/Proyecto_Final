@@ -1,12 +1,5 @@
-﻿using Proyecto_final;
-using System;
-using System.Collections.Generic;
+﻿using Proyecto_final.Models;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proyecto_Final.Repository
 {
@@ -72,25 +65,25 @@ namespace Proyecto_Final.Repository
             }
             return usuario;
         }
-        public static void ModificarUsuario(long idUsuario, string nuevoNombre, string nuevoApellido, string nuevoNombreUsuario, string nuevaContraseña, string nuevoMail)
+        public static void ModificarUsuario(Usuario usuario)
         {
-            Usuario usuario = new Usuario();
             const string cadenaConexion = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            var query = "UPDATE Usuario SET Nombre = @nuevoNombre, Apellido = @nuevoApellido, NombreUsuario = @nuevoNombreUsuario, Contraseña = @nuevaContraseña, Mail = @nuevoMail WHERE Id = @idUsuario";
+            var query = "UPDATE Usuario SET Nombre = @UsuarioNombre, Apellido = @nuevoApellido, NombreUsuario = @nuevoNombreUsuario, Contraseña = @nuevaContraseña, Mail = @nuevoMail WHERE Id = @idUsuario";
             using (SqlConnection conn = new SqlConnection(cadenaConexion))
             {
                 SqlCommand comando = new SqlCommand(query, conn);
-                comando.Parameters.AddWithValue("@idUsuario", idUsuario);
-                comando.Parameters.AddWithValue("@nuevoNombre", nuevoNombre);
-                comando.Parameters.AddWithValue("@nuevoApellido", nuevoApellido);
-                comando.Parameters.AddWithValue("@nuevoNombreUsuario", nuevoNombreUsuario);
-                comando.Parameters.AddWithValue("@nuevaContraseña", nuevaContraseña);
-                comando.Parameters.AddWithValue("@nuevoMail", nuevoMail);
+                comando.Parameters.AddWithValue("@idUsuario", usuario.Id);
+                comando.Parameters.AddWithValue("@UsuarioNombre", usuario.Nombre);
+                comando.Parameters.AddWithValue("@nuevoApellido", usuario.Apellido);
+                comando.Parameters.AddWithValue("@nuevoNombreUsuario", usuario.NombreUsuario);
+                comando.Parameters.AddWithValue("@nuevaContraseña", usuario.Contraseña);
+                comando.Parameters.AddWithValue("@nuevoMail", usuario.Mail);
                 conn.Open();
                 int rowsAffected = comando.ExecuteNonQuery();
+                conn.Close();
             }
-             
+
         }
-       
+
     }
 }

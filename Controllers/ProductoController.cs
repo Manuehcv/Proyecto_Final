@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Proyecto_Final.Controllers
 {
@@ -7,6 +6,6 @@ namespace Proyecto_Final.Controllers
     [ApiController]
     public class ProductoController : ControllerBase
     {
-        
+
     }
 }

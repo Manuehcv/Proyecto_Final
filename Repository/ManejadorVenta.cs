@@ -1,10 +1,5 @@
-﻿using Proyecto_final;
-using System;
-using System.Collections.Generic;
+﻿using Proyecto_final.Models;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proyecto_Final.Repository
 {

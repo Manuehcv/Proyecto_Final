@@ -6,7 +6,7 @@ namespace Proyecto_Final.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-       
+
         [HttpGet]
         public string ObtenerSaludo()
         {

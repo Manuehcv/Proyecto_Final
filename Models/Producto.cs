@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Proyecto_final.Models
+﻿namespace Proyecto_final.Models
 {
     public class Producto
     {
@@ -16,7 +10,7 @@ namespace Proyecto_final.Models
         private long idUsuario;
 
         public long Id { get => id; set => id = value; }
-        public string Descripcion { get => descripcion; set => descripcion = value; }
+        public string Descripciones { get => descripcion; set => descripcion = value; }
         public decimal Costo { get => costo; set => costo = value; }
         public decimal PrecioVenta { get => precioVenta; set => precioVenta = value; }
         public int Stock { get => stock; set => stock = value; }
