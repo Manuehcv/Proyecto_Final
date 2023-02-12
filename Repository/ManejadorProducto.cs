@@ -109,5 +109,19 @@ namespace Proyecto_Final.Repository
             }
 
         }
+
+        public static void BorrarProducto(long idProducto)
+        {
+            ManejadorProductoVendido.BorrarProductoVendido(idProducto);
+            var query = "DELETE FROM Producto WHERE Id = @idProducto";
+            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            {
+                SqlCommand comando = new SqlCommand(query, conn);
+                comando.Parameters.AddWithValue("@idProducto", idProducto);
+                conn.Open();
+                int rowsAffected = comando.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
     }
 }
