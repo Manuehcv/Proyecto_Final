@@ -1,16 +1,17 @@
 ﻿using Proyecto_final.Models;
+using Proyecto_Final.Models;
 using System.Data.SqlClient;
 
 namespace Proyecto_Final.Repository
 {
     static internal class ManejadorProducto
     {
-        const string cadenaConexion = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        
 
         public static List<Producto> GetProductosByUser(long idUsuario)
         {
             List<Producto> productos = new List<Producto>();
-            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
 
                 using SqlCommand comando = new SqlCommand("SELECT * FROM Producto WHERE IdUsuario = @idUsuario", conn);
@@ -42,7 +43,7 @@ namespace Proyecto_Final.Repository
         public static Producto GetProductosByIdProducto(long idProducto)
         {
             Producto productos = new Producto();
-            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
 
                 using SqlCommand comando = new SqlCommand("SELECT * FROM Producto WHERE Id = @IdProducto", conn);
@@ -72,8 +73,7 @@ namespace Proyecto_Final.Repository
         }
         public static void CrearProductos(Producto producto)
         {
-            const string cadenaConexion = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
                 using SqlCommand comando = new SqlCommand("INSERT INTO Producto (Descripciones, Costo, PrecioVenta, Stock, IdUsuario) VALUES (@descripciones, @costo, @precioVenta, @stock, @idUsuario)", conn);
                 {
@@ -92,9 +92,8 @@ namespace Proyecto_Final.Repository
         }
         public static void ModificarProducto(Producto producto)
         {
-            const string cadenaConexion = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             var query = "UPDATE Producto SET Descripciones = @descripciones, Costo = @costo, PrecioVenta = @precioventa, Stock = @stock, IdUsuario = @idUsuario WHERE Id = @id";
-            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
                 SqlCommand comando = new SqlCommand(query, conn);
                 comando.Parameters.AddWithValue("@descripciones", producto.Descripciones);
@@ -114,7 +113,7 @@ namespace Proyecto_Final.Repository
         {
             ManejadorProductoVendido.BorrarProductoVendido(idProducto);
             var query = "DELETE FROM Producto WHERE Id = @idProducto";
-            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
                 SqlCommand comando = new SqlCommand(query, conn);
                 comando.Parameters.AddWithValue("@idProducto", idProducto);

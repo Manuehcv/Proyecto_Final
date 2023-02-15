@@ -1,15 +1,15 @@
 ﻿using Proyecto_final.Models;
+using Proyecto_Final.Models;
 using System.Data.SqlClient;
 
 namespace Proyecto_Final.Repository
 {
     internal class ManejadorVenta
     {
-        const string cadenaConexion = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         public static List<Venta> GetVentaByUser(long idUsuario)
         {
             List<Venta> ventas = new List<Venta>();
-            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
                 using SqlCommand comando = new SqlCommand("SELECT * FROM Venta WHERE IdUsuario = @idUsuario", conn);
                 {
@@ -37,7 +37,7 @@ namespace Proyecto_Final.Repository
         public static void CargarVenta(long idUsuario, List<Producto> listaProducto)
         {
             long idNuevaVenta = 0;
-            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
                 using SqlCommand comando = new SqlCommand("INSERT INTO Venta (Comentarios, IdUsuario) VALUES (@comentarios, @idUsuario); SELECT @@IDENTITY", conn);
                 {
