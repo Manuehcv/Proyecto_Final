@@ -14,7 +14,7 @@ namespace Proyecto_Final.Controllers
             ManejadorUsuario.ModificarUsuario(ModifyUser);
         }
 
-        [HttpGet ("{usuario}/{contraseña}")]
+        [HttpGet("{usuario}/{contraseña}")]
         public Usuario Login(string usuario, string contraseña)
         {
             return ManejadorUsuario.Login(usuario, contraseña);

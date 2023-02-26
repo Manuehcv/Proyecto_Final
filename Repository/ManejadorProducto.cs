@@ -5,7 +5,7 @@ namespace Proyecto_Final.Repository
 {
     static internal class ManejadorProducto
     {
-        
+
 
         public static List<Producto> GetProductosByUser(long idUsuario)
         {
@@ -33,7 +33,7 @@ namespace Proyecto_Final.Repository
                                 productos.Add(producto);
                             }
                         }
-                        
+
                     }
                     conn.Close();
                 }

@@ -51,7 +51,7 @@ namespace Proyecto_Final.Repository
             foreach (Producto producto in listaProducto)
             {
                 ProductoVendido temporal = new ProductoVendido();
-                temporal.Stock= producto.Stock;
+                temporal.Stock = producto.Stock;
                 temporal.IdProducto = producto.Id;
                 temporal.IdVenta = idNuevaVenta;
                 ManejadorProductoVendido.InsertarProductoVendido(temporal);

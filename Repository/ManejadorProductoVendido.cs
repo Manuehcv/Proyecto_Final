@@ -64,7 +64,7 @@ namespace Proyecto_Final.Repository
             return nombresProductos;
 
         }
-        
+
         public static void BorrarProductoVendido(long idProducto)
         {
             var query = "DELETE FROM ProductoVendido WHERE IdProducto = @idProducto";

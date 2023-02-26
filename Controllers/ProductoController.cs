@@ -28,7 +28,7 @@ namespace Proyecto_Final.Controllers
         public List<Producto> GetProducto(long idUsuario)
         {
             return ManejadorProducto.GetProductosByUser(idUsuario);
-            
+
 
         }
     }
