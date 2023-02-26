@@ -1,6 +1,6 @@
 ﻿namespace Proyecto_final.Models
 {
-    internal class ProductoVendido
+    public class ProductoVendido
     {
         private long id;
         private long idProducto;

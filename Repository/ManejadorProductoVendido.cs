@@ -3,19 +3,18 @@ using System.Data.SqlClient;
 
 namespace Proyecto_Final.Repository
 {
-    internal class ManejadorProductoVendido
+    public static class ManejadorProductoVendido
     {
-        const string cadenaConexion = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         public static List<ProductoVendido> GetProductoVendidoByIdVenta(long idVenta)
         {
             List<ProductoVendido> productosVendidos = new List<ProductoVendido>();
-            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
-                using SqlCommand comando = new SqlCommand("SELECT * FROM ProductoVendido WHERE IdVenta = @idVenta", conn);
+                using (SqlCommand comando = new SqlCommand("SELECT * FROM ProductoVendido WHERE IdVenta = @idVenta", conn))
                 {
                     comando.Parameters.AddWithValue("@idVenta", idVenta);
                     conn.Open();
-                    using SqlDataReader reader = comando.ExecuteReader();
+                    using (SqlDataReader reader = comando.ExecuteReader())
                     {
                         if (reader.HasRows)
                         {
@@ -65,11 +64,11 @@ namespace Proyecto_Final.Repository
             return nombresProductos;
 
         }
-        
+
         public static void BorrarProductoVendido(long idProducto)
         {
             var query = "DELETE FROM ProductoVendido WHERE IdProducto = @idProducto";
-            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
                 SqlCommand comando = new SqlCommand(query, conn);
                 comando.Parameters.AddWithValue("@idProducto", idProducto);
@@ -81,9 +80,9 @@ namespace Proyecto_Final.Repository
 
         public static void InsertarProductoVendido(ProductoVendido productoVendido)
         {
-            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
-                using SqlCommand comando = new SqlCommand("INSERT INTO ProductoVendido (Stock, IdProducto, IdVenta) VALUES (@stock, @idProducto, @idVenta)", conn);
+                using (SqlCommand comando = new SqlCommand("INSERT INTO ProductoVendido (Stock, IdProducto, IdVenta) VALUES (@stock, @idProducto, @idVenta)", conn))
                 {
                     comando.Parameters.AddWithValue("@stock", productoVendido.Stock);
                     comando.Parameters.AddWithValue("@idProducto", productoVendido.IdProducto);

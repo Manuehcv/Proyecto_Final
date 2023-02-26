@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Proyecto_final.Models;
 using Proyecto_Final.Repository;
 
@@ -13,6 +12,14 @@ namespace Proyecto_Final.Controllers
         public void PostVenta(long idUsuario, List<Producto> listaProducto)
         {
             ManejadorVenta.CargarVenta(idUsuario, listaProducto);
+        }
+
+        [HttpGet("{idUsuario}")]
+        public List<Venta> GetVentas(long idUsuario)
+        {
+            return ManejadorVenta.GetVentaByUser(idUsuario);
+
+
         }
     }
 }

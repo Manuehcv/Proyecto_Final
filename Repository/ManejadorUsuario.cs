@@ -8,9 +8,8 @@ namespace Proyecto_Final.Repository
         public static Usuario GetUsuarioByID(long idToSearch)
         {
             Usuario user = new Usuario();
-            const string connectionString = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             var query = "SELECT * FROM Usuario WHERE Id = @Id";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
                 SqlCommand comando = new SqlCommand(query, conn);
                 var parametro = new SqlParameter();
@@ -37,9 +36,8 @@ namespace Proyecto_Final.Repository
         public static Usuario Login(string nombreUsuario, string contraseña)
         {
             Usuario usuario = new Usuario();
-            const string cadenaConexion = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             var query = "SELECT * FROM Usuario WHERE NombreUsuario = @nombreUsuario AND Contraseña = @contraseña";
-            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
                 SqlCommand comando = new SqlCommand(query, conn);
                 comando.Parameters.AddWithValue("@nombreUsuario", nombreUsuario);
@@ -67,9 +65,8 @@ namespace Proyecto_Final.Repository
         }
         public static void ModificarUsuario(Usuario usuario)
         {
-            const string cadenaConexion = "Data Source=DESKTOP-JR4NFDN;Initial Catalog=SistemaGestion;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             var query = "UPDATE Usuario SET Nombre = @UsuarioNombre, Apellido = @nuevoApellido, NombreUsuario = @nuevoNombreUsuario, Contraseña = @nuevaContraseña, Mail = @nuevoMail WHERE Id = @idUsuario";
-            using (SqlConnection conn = new SqlConnection(cadenaConexion))
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
                 SqlCommand comando = new SqlCommand(query, conn);
                 comando.Parameters.AddWithValue("@idUsuario", usuario.Id);
@@ -84,6 +81,63 @@ namespace Proyecto_Final.Repository
             }
 
         }
+        public static void CrearUsuario(Usuario usuario)
+        {
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
+            {
+                using (SqlCommand comando = new SqlCommand("INSERT INTO Usuario (Nombre, Apellido, NombreUsuario, Contraseña, Mail) VALUES (@nombre, @apellido, @nombreUsuario, @contraseña, @mail)", conn))
+                {
+                    comando.Parameters.AddWithValue("@nombre", usuario.Nombre);
+                    comando.Parameters.AddWithValue("@apellido", usuario.Apellido);
+                    comando.Parameters.AddWithValue("@nombreUsuario", usuario.NombreUsuario);
+                    comando.Parameters.AddWithValue("@contraseña", usuario.Contraseña);
+                    comando.Parameters.AddWithValue("@mail", usuario.Mail);
+                    conn.Open();
+                    int rowsAffected = comando.ExecuteNonQuery();
+                    conn.Close();
+                }
 
+            }
+
+        }
+        public static Usuario GetUsuarioBynombreUsuario(string nombreUsuarioBuscar)
+        {
+            Usuario user = new Usuario();
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
+            {
+                using (SqlCommand comando = new SqlCommand("SELECT * FROM Usuario WHERE NombreUsuario = @nombreUsuarioBuscar", conn))
+                {
+                    comando.Parameters.AddWithValue("@nombreUsuarioBuscar", nombreUsuarioBuscar);
+                    conn.Open();
+                    SqlDataReader reader = comando.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        user.Id = Convert.ToInt64(reader.GetInt64(0));
+                        user.Nombre = reader.GetString(1);
+                        user.Apellido = reader.GetString(2);
+                        user.NombreUsuario = reader.GetString(3);
+                        user.Contraseña = reader.GetString(4);
+                        user.Mail = reader.GetString(5);
+                    }
+                    conn.Close();
+
+                }
+            }
+            return user;
+        }
+        public static void BorrarUsuario(long idUsuario)
+        {
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
+            {
+                SqlCommand comando = new SqlCommand("DELETE FROM Usuario WHERE Id = @idUsuario", conn);
+                comando.Parameters.AddWithValue("@idUsuario", idUsuario);
+                conn.Open();
+                int rowsAffected = comando.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
     }
+
 }
+
