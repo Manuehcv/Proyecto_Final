@@ -1,21 +1,20 @@
 ﻿using Proyecto_final.Models;
-using Proyecto_Final.Models;
 using System.Data.SqlClient;
 
 namespace Proyecto_Final.Repository
 {
-    internal class ManejadorProductoVendido
+    public static class ManejadorProductoVendido
     {
         public static List<ProductoVendido> GetProductoVendidoByIdVenta(long idVenta)
         {
             List<ProductoVendido> productosVendidos = new List<ProductoVendido>();
             using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
-                using SqlCommand comando = new SqlCommand("SELECT * FROM ProductoVendido WHERE IdVenta = @idVenta", conn);
+                using (SqlCommand comando = new SqlCommand("SELECT * FROM ProductoVendido WHERE IdVenta = @idVenta", conn))
                 {
                     comando.Parameters.AddWithValue("@idVenta", idVenta);
                     conn.Open();
-                    using SqlDataReader reader = comando.ExecuteReader();
+                    using (SqlDataReader reader = comando.ExecuteReader())
                     {
                         if (reader.HasRows)
                         {
@@ -83,7 +82,7 @@ namespace Proyecto_Final.Repository
         {
             using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
-                using SqlCommand comando = new SqlCommand("INSERT INTO ProductoVendido (Stock, IdProducto, IdVenta) VALUES (@stock, @idProducto, @idVenta)", conn);
+                using (SqlCommand comando = new SqlCommand("INSERT INTO ProductoVendido (Stock, IdProducto, IdVenta) VALUES (@stock, @idProducto, @idVenta)", conn))
                 {
                     comando.Parameters.AddWithValue("@stock", productoVendido.Stock);
                     comando.Parameters.AddWithValue("@idProducto", productoVendido.IdProducto);

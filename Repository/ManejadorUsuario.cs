@@ -1,5 +1,4 @@
 ﻿using Proyecto_final.Models;
-using Proyecto_Final.Models;
 using System.Data.SqlClient;
 
 namespace Proyecto_Final.Repository
@@ -86,7 +85,7 @@ namespace Proyecto_Final.Repository
         {
             using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
-                using SqlCommand comando = new SqlCommand("INSERT INTO Usuario (Nombre, Apellido, NombreUsuario, Contraseña, Mail) VALUES (@nombre, @apellido, @nombreUsuario, @contraseña, @mail)", conn);
+                using (SqlCommand comando = new SqlCommand("INSERT INTO Usuario (Nombre, Apellido, NombreUsuario, Contraseña, Mail) VALUES (@nombre, @apellido, @nombreUsuario, @contraseña, @mail)", conn))
                 {
                     comando.Parameters.AddWithValue("@nombre", usuario.Nombre);
                     comando.Parameters.AddWithValue("@apellido", usuario.Apellido);
@@ -127,7 +126,17 @@ namespace Proyecto_Final.Repository
             }
             return user;
         }
-
+        public static void BorrarUsuario(long idUsuario)
+        {
+            using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
+            {
+                SqlCommand comando = new SqlCommand("DELETE FROM Usuario WHERE Id = @idUsuario", conn);
+                comando.Parameters.AddWithValue("@idUsuario", idUsuario);
+                conn.Open();
+                int rowsAffected = comando.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
     }
 
 }

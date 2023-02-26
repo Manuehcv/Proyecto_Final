@@ -1,6 +1,6 @@
 ﻿namespace Proyecto_final.Models
 {
-    internal class Venta
+    public class Venta
     {
         private long id;
         private string comentarios;

@@ -1,5 +1,4 @@
 ﻿using Proyecto_final.Models;
-using Proyecto_Final.Models;
 using System.Data.SqlClient;
 
 namespace Proyecto_Final.Repository
@@ -14,11 +13,11 @@ namespace Proyecto_Final.Repository
             using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
 
-                using SqlCommand comando = new SqlCommand("SELECT * FROM Producto WHERE IdUsuario = @idUsuario", conn);
+                using (SqlCommand comando = new SqlCommand("SELECT * FROM Producto WHERE IdUsuario = @idUsuario", conn))
                 {
                     comando.Parameters.AddWithValue("@idUsuario", idUsuario);
                     conn.Open();
-                    using SqlDataReader reader = comando.ExecuteReader();
+                    using (SqlDataReader reader = comando.ExecuteReader())
                     {
                         if (reader.HasRows)
                         {
@@ -34,8 +33,9 @@ namespace Proyecto_Final.Repository
                                 productos.Add(producto);
                             }
                         }
-                        conn.Close();
+                        
                     }
+                    conn.Close();
                 }
             }
             return productos;

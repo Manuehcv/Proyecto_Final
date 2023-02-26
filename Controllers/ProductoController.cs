@@ -19,12 +19,17 @@ namespace Proyecto_Final.Controllers
         {
             ManejadorProducto.ModificarProducto(ModifyProduct);
         }
-        [HttpDelete ("{idProducto}")]
+        [HttpDelete("{idProducto}")]
         public void DeleteProducto(long idProducto)
         {
             ManejadorProducto.BorrarProducto(idProducto);
         }
-    
-    
+        [HttpGet("{idUsuario}")]
+        public List<Producto> GetProducto(long idUsuario)
+        {
+            return ManejadorProducto.GetProductosByUser(idUsuario);
+            
+
+        }
     }
 }

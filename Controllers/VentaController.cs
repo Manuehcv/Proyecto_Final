@@ -14,5 +14,13 @@ namespace Proyecto_Final.Controllers
         {
             ManejadorVenta.CargarVenta(idUsuario, listaProducto);
         }
+
+        [HttpGet("{idUsuario}")]
+        public List<Venta> GetVentas(long idUsuario)
+        {
+            return ManejadorVenta.GetVentaByUser(idUsuario);
+
+
+        }
     }
 }

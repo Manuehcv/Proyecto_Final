@@ -1,21 +1,20 @@
 ﻿using Proyecto_final.Models;
-using Proyecto_Final.Models;
 using System.Data.SqlClient;
 
 namespace Proyecto_Final.Repository
 {
-    internal class ManejadorVenta
+    public static class ManejadorVenta
     {
         public static List<Venta> GetVentaByUser(long idUsuario)
         {
             List<Venta> ventas = new List<Venta>();
             using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
-                using SqlCommand comando = new SqlCommand("SELECT * FROM Venta WHERE IdUsuario = @idUsuario", conn);
+                using (SqlCommand comando = new SqlCommand("SELECT * FROM Venta WHERE IdUsuario = @idUsuario", conn))
                 {
                     comando.Parameters.AddWithValue("@idUsuario", idUsuario);
                     conn.Open();
-                    using SqlDataReader reader = comando.ExecuteReader();
+                    using (SqlDataReader reader = comando.ExecuteReader())
                     {
                         if (reader.HasRows)
                         {
@@ -39,7 +38,7 @@ namespace Proyecto_Final.Repository
             long idNuevaVenta = 0;
             using (SqlConnection conn = new SqlConnection(CadenaConexioncs.cadenaConexion))
             {
-                using SqlCommand comando = new SqlCommand("INSERT INTO Venta (Comentarios, IdUsuario) VALUES (@comentarios, @idUsuario); SELECT @@IDENTITY", conn);
+                using (SqlCommand comando = new SqlCommand("INSERT INTO Venta (Comentarios, IdUsuario) VALUES (@comentarios, @idUsuario); SELECT @@IDENTITY", conn))
                 {
                     comando.Parameters.AddWithValue("@comentarios", "");
                     comando.Parameters.AddWithValue("@idUsuario", idUsuario);

@@ -31,5 +31,10 @@ namespace Proyecto_Final.Controllers
             return ManejadorUsuario.GetUsuarioBynombreUsuario(nombreUsuario);
         }
 
+        [HttpDelete("{idUsuario}")]
+        public void DeleteUsuario(long idUsuario)
+        {
+            ManejadorUsuario.BorrarUsuario(idUsuario);
+        }
     }
 }
